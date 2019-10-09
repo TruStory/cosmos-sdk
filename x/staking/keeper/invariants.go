@@ -52,6 +52,8 @@ func ModuleAccountInvariants(k Keeper) sdk.Invariant {
 		bonded := sdk.ZeroInt()
 		notBonded := sdk.ZeroInt()
 		bondedPool := k.GetBondedPool(ctx)
+		fmt.Println("bonded pool: " + bondedPool.String())
+
 		notBondedPool := k.GetNotBondedPool(ctx)
 		bondDenom := k.BondDenom(ctx)
 
@@ -59,6 +61,7 @@ func ModuleAccountInvariants(k Keeper) sdk.Invariant {
 			switch validator.GetStatus() {
 			case sdk.Bonded:
 				bonded = bonded.Add(validator.GetTokens())
+				fmt.Println("bonded: " + bonded.String())
 			case sdk.Unbonding, sdk.Unbonded:
 				notBonded = notBonded.Add(validator.GetTokens())
 			default:
@@ -80,6 +83,7 @@ func ModuleAccountInvariants(k Keeper) sdk.Invariant {
 
 		// Bonded tokens should equal sum of tokens with bonded validators
 		// Not-bonded tokens should equal unbonding delegations	plus tokens on unbonded validators
+		fmt.Println("IN HERE>.........................")
 		return sdk.FormatInvariant(types.ModuleName, "bonded and not bonded module account coins", fmt.Sprintf(
 			"\tPool's bonded tokens: %v\n"+
 				"\tsum of bonded tokens: %v\n"+

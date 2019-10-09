@@ -30,6 +30,7 @@ func (k Keeper) AllocateTokens(
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("distribution " + feesCollectedInt.String())
 
 	// temporary workaround to keep CanWithdrawInvariant happy
 	// general discussions here: https://github.com/cosmos/cosmos-sdk/issues/2906#issuecomment-441867634
@@ -61,6 +62,8 @@ func (k Keeper) AllocateTokens(
 				sdk.NewAttribute(types.AttributeKeyValidator, proposerValidator.GetOperator().String()),
 			),
 		)
+
+		//fmt.Println("proposer reward " + proposerReward.String())
 
 		k.AllocateTokensToValidator(ctx, proposerValidator, proposerReward)
 		remaining = remaining.Sub(proposerReward)
@@ -97,6 +100,7 @@ func (k Keeper) AllocateTokens(
 	// allocate community funding
 	feePool.CommunityPool = feePool.CommunityPool.Add(remaining)
 	k.SetFeePool(ctx, feePool)
+	//fmt.Println("community pool "+feePool.CommunityPool.String())
 }
 
 // AllocateTokensToValidator allocate tokens to a particular validator, splitting according to commission
@@ -104,6 +108,8 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val exported.Validato
 	// split tokens between validator and delegators according to commission
 	commission := tokens.MulDec(val.GetCommission())
 	shared := tokens.Sub(commission)
+
+	//fmt.Println("allocating validator commission " + commission.String())
 
 	// update current commission
 	ctx.EventManager().EmitEvent(
@@ -130,6 +136,9 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val exported.Validato
 			sdk.NewAttribute(types.AttributeKeyValidator, val.GetOperator().String()),
 		),
 	)
+
+	fmt.Println("allocating validator tokens " + tokens.String())
+
 	outstanding := k.GetValidatorOutstandingRewards(ctx, val.GetOperator())
 	outstanding = outstanding.Add(tokens)
 	k.SetValidatorOutstandingRewards(ctx, val.GetOperator(), outstanding)

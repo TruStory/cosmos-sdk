@@ -1,6 +1,7 @@
 package mint
 
 import (
+	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/mint/internal/types"
 )
@@ -32,6 +33,11 @@ func BeginBlocker(ctx sdk.Context, k Keeper) {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println(types.AttributeKeyBondedRatio + " " + bondedRatio.String())
+	fmt.Println(types.AttributeKeyInflation + " " + minter.Inflation.String())
+	fmt.Println(types.AttributeKeyAnnualProvisions + "(per year) " + minter.AnnualProvisions.String())
+	fmt.Println(sdk.AttributeKeyAmount + "(per block) " + mintedCoin.Amount.String())
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(

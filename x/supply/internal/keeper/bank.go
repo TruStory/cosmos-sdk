@@ -33,6 +33,8 @@ func (k Keeper) SendCoinsFromModuleToModule(ctx sdk.Context, senderModule, recip
 		panic(fmt.Sprintf("module account %s isn't able to be created", recipientModule))
 	}
 
+	//fmt.Println("sending " + amt.String() + " from " + senderModule + " to " + recipientModule)
+
 	return k.bk.SendCoins(ctx, senderAddr, recipientAcc.GetAddress(), amt)
 }
 

@@ -92,6 +92,7 @@ func Migrate(
 		switch validator.Status {
 		case sdk.Bonded:
 			bondedAmt = bondedAmt.Add(validator.Tokens)
+			fmt.Println("bonded amount " + bondedAmt.String())
 
 		case sdk.Unbonding, sdk.Unbonded:
 			notBondedAmt = notBondedAmt.Add(validator.Tokens)
@@ -108,6 +109,7 @@ func Migrate(
 	}
 
 	bondedCoins := sdk.NewCoins(sdk.NewCoin(bondDenom, bondedAmt))
+	fmt.Println("bonded coins "+ bondedCoins.String())
 	notBondedCoins := sdk.NewCoins(sdk.NewCoin(bondDenom, notBondedAmt))
 
 	// get distr module account coins
@@ -147,6 +149,7 @@ func Migrate(
 		sdk.Coins{}, sdk.Coins{}, sdk.Coins{},
 		0, 0, bondedPoolName, []string{burner, staking},
 	)
+	fmt.Println(bondedModuleAcc)
 	notBondedModuleAcc := NewGenesisAccount(
 		notBondedAddr, notBondedCoins, 0,
 		sdk.Coins{}, sdk.Coins{}, sdk.Coins{},

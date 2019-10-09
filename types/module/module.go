@@ -30,6 +30,7 @@ package module
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/gorilla/mux"
 	"github.com/spf13/cobra"
@@ -89,6 +90,7 @@ func (bm BasicManager) DefaultGenesis() map[string]json.RawMessage {
 // ValidateGenesis performs genesis state validation for all modules
 func (bm BasicManager) ValidateGenesis(genesis map[string]json.RawMessage) error {
 	for _, b := range bm {
+		fmt.Println("validating genesis for "+b.Name())
 		if err := b.ValidateGenesis(genesis[b.Name()]); err != nil {
 			return err
 		}
