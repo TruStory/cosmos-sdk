@@ -151,15 +151,25 @@ type GasConfig struct {
 
 // KVGasConfig returns a default gas config for KVStores.
 func KVGasConfig() GasConfig {
+	// return GasConfig{
+	// 	HasCost:          1000,
+	// 	DeleteCost:       1000,
+	// 	ReadCostFlat:     1000,
+	// 	ReadCostPerByte:  3,
+	// 	WriteCostFlat:    2000,
+	// 	WriteCostPerByte: 30,
+	// 	IterNextCostFlat: 30,
+	// }
 	return GasConfig{
-		HasCost:          1000,
-		DeleteCost:       1000,
-		ReadCostFlat:     1000,
-		ReadCostPerByte:  3,
-		WriteCostFlat:    2000,
-		WriteCostPerByte: 30,
-		IterNextCostFlat: 30,
+		HasCost:          100,
+		DeleteCost:       100,
+		ReadCostFlat:     100,
+		ReadCostPerByte:  1,
+		WriteCostFlat:    200,
+		WriteCostPerByte: 10,
+		IterNextCostFlat: 10,
 	}
+
 }
 
 // TransientGasConfig returns a default gas config for TransientStores.
