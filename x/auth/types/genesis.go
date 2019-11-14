@@ -77,10 +77,10 @@ func ValidateGenAccounts(accounts exported.GenesisAccounts) error {
 
 		addrMap[addrStr] = true
 
-		// check account specific validation
-		if err := acc.Validate(); err != nil {
-			return fmt.Errorf("invalid account found in genesis state; address: %s, error: %s", addrStr, err.Error())
-		}
+		// // check account specific validation
+		// if err := acc.Validate(); err != nil {
+		// 	return fmt.Errorf("invalid account found in genesis state; address: %s, error: %s", addrStr, err.Error())
+		// }
 	}
 	return nil
 }
