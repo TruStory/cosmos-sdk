@@ -3,6 +3,7 @@ package ante
 import (
 	"bytes"
 	"encoding/hex"
+	"fmt"
 
 	"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/crypto/ed25519"
@@ -171,6 +172,7 @@ func NewSigVerificationDecorator(ak keeper.AccountKeeper) SigVerificationDecorat
 func (svd SigVerificationDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
 	// FIXME: temporarily skipping sig verification for genesis block due to address migration issue
 	if ctx.BlockHeight() == 0 {
+		fmt.Println("Skipping sig verification for block 0...")
 		return next(ctx, tx, simulate)
 	}
 
